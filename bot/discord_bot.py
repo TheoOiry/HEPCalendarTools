@@ -98,25 +98,29 @@ async def timer():
     last_showed_course = None
 
     while True:
-        all_week_courses = get_all_course_with_link_now()
-        last_course_with_link = get_last_course_with_link(all_week_courses)
-        if last_course_with_link is not None:
-            if last_showed_course is None or (
-                last_showed_course['course'] != last_course_with_link['course']
-                or last_showed_course['date'] != last_course_with_link['date']):
+        try:
+            all_week_courses = get_all_course_with_link_now()
+            last_course_with_link = get_last_course_with_link(all_week_courses)
+            if last_course_with_link is not None:
+                if last_showed_course is None or (
+                        last_showed_course['course'] != last_course_with_link['course']
+                        or last_showed_course['date'] != last_course_with_link['date']):
 
-                last_showed_course = last_course_with_link
-                supp_infos = build_infos(all_week_courses, last_showed_course)
+                    last_showed_course = last_course_with_link
+                    supp_infos = build_infos(all_week_courses, last_showed_course)
 
-                message = "Module: " + last_showed_course['course'] + " par " + last_showed_course['teacher'] + "\n"
-                message += "Durée du cours: " + time_delta_to_str(supp_infos['course_time']) + "\n"
-                if supp_infos['rest_time'] is None:
-                    message += "Durée restante du module après ce cour: 0:00\n"
-                else:
-                    message += "Durée restante du module après ce cour: " + time_delta_to_str(supp_infos['rest_time']) + "\n"
-                message += "Lien du cour: " + shorten_link(last_showed_course['link'])
+                    message = "Module: " + last_showed_course['course'] + " par " + last_showed_course['teacher'] + "\n"
+                    message += "Durée du cours: " + time_delta_to_str(supp_infos['course_time']) + "\n"
+                    if supp_infos['rest_time'] is None:
+                        message += "Durée restante du module après ce cour: 0:00\n"
+                    else:
+                        message += "Durée restante du module après ce cour: " + time_delta_to_str(
+                            supp_infos['rest_time']) + "\n"
+                    message += "Lien du cour: " + shorten_link(last_showed_course['link'])
 
-                await channel.send(message)
+                    await channel.send(message)
+        except:
+            pass
         await asyncio.sleep(1)
 
 
