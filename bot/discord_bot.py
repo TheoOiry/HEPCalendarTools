@@ -11,7 +11,7 @@ import urllib
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 CUTTLY_TOKEN = os.getenv('CUTTLY_TOKEN')
-
+   
 
 def get_all_course_with_link_now():
     return sorted(common.get_all_course_from_str_date(common.get_str_date_from_date(datetime.datetime.now()))
@@ -93,7 +93,7 @@ client = discord.Client()
 
 async def timer():
     await client.wait_until_ready()
-    channel = client.get_channel(811206115911401502)
+    channel = client.get_channel(684017924389994504)
 
     last_showed_course = None
 
@@ -107,19 +107,19 @@ async def timer():
                         or last_showed_course['date'] != last_course_with_link['date']):
 
                     last_showed_course = last_course_with_link
-                    supp_infos = build_infos(all_week_courses, last_showed_course)
+                    supp_infos = build_infos(all_week_courses, last_course_with_link)
 
-                    message = "Module: " + last_showed_course['course'] + " par " + last_showed_course['teacher'] + "\n"
+                    message = "Module: " + last_course_with_link['course'] + " par " + last_course_with_link['teacher'] + "\n"
                     message += "Durée du cours: " + time_delta_to_str(supp_infos['course_time']) + "\n"
                     if supp_infos['rest_time'] is None:
                         message += "Durée restante du module après ce cour: 0:00\n"
                     else:
                         message += "Durée restante du module après ce cour: " + time_delta_to_str(
                             supp_infos['rest_time']) + "\n"
-                    message += "Lien du cour: " + shorten_link(last_showed_course['link'])
-
+                    message += "Lien du cour: " + shorten_link(last_course_with_link['link'])
                     await channel.send(message)
-        except:
+        except Exception as e:
+            print(e)
             pass
         await asyncio.sleep(1)
 
