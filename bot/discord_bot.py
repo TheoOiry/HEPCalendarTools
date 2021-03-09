@@ -107,6 +107,9 @@ async def timer():
                         or last_showed_course['date'] != last_course_with_link['date']):
 
                     last_showed_course = last_course_with_link
+                    print("new_course: ")
+                    print(last_course_with_link)
+
                     supp_infos = build_infos(all_week_courses, last_course_with_link)
 
                     message = "Module: " + last_course_with_link['course'] + " par " + last_course_with_link['teacher'] + "\n"
