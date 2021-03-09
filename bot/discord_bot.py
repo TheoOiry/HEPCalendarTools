@@ -93,7 +93,7 @@ client = discord.Client()
 
 async def timer():
     await client.wait_until_ready()
-    channel = client.get_channel(684017924389994504)
+    channel = client.get_channel(811206115911401502)
 
     last_showed_course = None
 
