@@ -14,7 +14,9 @@ CUTTLY_TOKEN = os.getenv('CUTTLY_TOKEN')
    
 
 def get_all_course_with_link_now():
-    return sorted(common.get_all_course_from_str_date(common.get_str_date_from_date(datetime.datetime.now()))
+    now = datetime.datetime.now()
+    first_day_of_week = now - datetime.timedelta(days=now.weekday())
+    return sorted(common.get_all_course_from_str_date(common.get_str_date_from_date(first_day_of_week))
                   , key=lambda course: (common.get_date_from_edt_date(course['date']), course['hdeb']))
 
 
